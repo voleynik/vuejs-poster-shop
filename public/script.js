@@ -11,11 +11,12 @@ new Vue({
             {title: 'Item 3', price: 9.99}
         ],
         cart: [],
-        searchString: ''
+        search: ''
     },
     methods:{
         onSubmit: function(){
-            console.log('$http: ' + this.$http);
+            console.log('~search: ' + this.search);
+            //console.log('$http: ' + this.$http);
         },
         dec: function(item){
             item.qty--;
