@@ -1,22 +1,28 @@
 console.log('It works.');
 console.log(Vue);
 
+//{title: 'Item 1', price: 7.99},
+//{title: 'Item 2', price: 8.99},
+//{title: 'Item 3', price: 9.99}
+
 new Vue({
     el: '#app',
     data: {
         total: 0,
-        items: [
-            {title: 'Item 1', price: 7.99},
-            {title: 'Item 2', price: 8.99},
-            {title: 'Item 3', price: 9.99}
-        ],
+        items: [],
         cart: [],
         search: ''
     },
     methods:{
         onSubmit: function(){
-            console.log('~search: ' + this.search);
-            //console.log('$http: ' + this.$http);
+            //console.log('~search: ' + this.search);
+            console.log(this.$http);
+            this.$http
+                .get('/search/'.concat(this.search))
+                .then(function(res){
+                    //console.log(res.data);
+                    this.items = res.data;
+                });
         },
         dec: function(item){
             item.qty--;
