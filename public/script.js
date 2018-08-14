@@ -11,17 +11,23 @@ new Vue({
         total: 0,
         items: [],
         cart: [],
-        search: ''
+        newSearch: '',
+        lastSearch: '',
+        loading: false
     },
     methods:{
         onSubmit: function(){
-            //console.log('~search: ' + this.search);
-            console.log(this.$http);
+            //console.log('~newSearch: ' + this.newSearch);
+            //console.log(this.$http);
+            this.items = [];
+            this.loading = true;
             this.$http
-                .get('/search/'.concat(this.search))
+                .get('/search/'.concat(this.newSearch))
                 .then(function(res){
                     //console.log(res.data);
+                    this.lastSearch = this.newSearch;
                     this.items = res.data;
+                    this.loading = false;
                 });
         },
         dec: function(item){
