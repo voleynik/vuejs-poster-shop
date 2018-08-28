@@ -1,4 +1,4 @@
-const PRICE = 9.99;
+const PRICE = 9.99; // vvo
 console.log('It works.');
 console.log(Vue);
 
@@ -64,16 +64,16 @@ new Vue({
             }
         }
     },
+    filters: {
+        currencyFilter: function(price){
+            return "$".concat(price.toFixed(2));
+        }
+    },
     created: function(){
         console.log('~IN created');
     },
     mounted: function(){
         console.log('~IN mounted');
         this.onSubmit();
-    },
-    filters: {
-        currencyFilter: function(price){
-            return "$".concat(price.toFixed(2));
-        }
     }
 });
