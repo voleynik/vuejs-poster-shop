@@ -1,4 +1,4 @@
-const PRICE = 9.99; // vvo
+var PRICE = 9.99; // vvo
 console.log('It works.');
 console.log(Vue);
 
@@ -8,23 +8,41 @@ new Vue({
         total: 0,
         items: [],
         cart: [],
+        results: [],
         newSearch: 'anime',
         lastSearch: '',
         loading: false,
         price: PRICE
     },
     methods:{
+        removeDuplicates: function(arrPosters){
+            var arrPostersNoDuplicates = [];
+            var arrTitles = [];
+            //var onePoster = {};
+            //var posterTitle;
+            for(var i = 0; i < arrPosters.length; i++){
+                var onePoster = arrPosters[i];
+                var posterTitle = onePoster["title"];
+                if(arrTitles.indexOf(posterTitle) < 0){
+                    arrPostersNoDuplicates.push(onePoster);
+                    arrTitles.push(posterTitle);
+                }
+            }
+            return arrPostersNoDuplicates;
+        },
         onSubmit: function(){
-            //console.log('~newSearch: ' + this.newSearch);
+            console.log('~newSearch: ' + this.newSearch);
             //console.log(this.$http);
             this.items = [];
             this.loading = true;
+            console.log("~onSubmit");
             this.$http
                 .get('/search/'.concat(this.newSearch))
                 .then(function(res){
                     console.log(res.data);
                     this.lastSearch = this.newSearch;
-                    this.items = res.data; // id: "xx",link: "https://i.imgur.com/NJWf0d3.jpg", title: "xx"
+                    var noDuplicates = this.removeDuplicates(res.data);
+                    this.items = noDuplicates.slice(0, 5);//id: "xx",link: "https://i.imgur.com/NJWf0d3.jpg", title: "xx"
                     this.loading = false;
                 });
         },

@@ -1,5 +1,5 @@
 <!doctype html><!--vvo-->
-<html lang="en">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta name="referrer" content="never" />
@@ -30,7 +30,7 @@
             <div class="search-results" v-else>
                 Found {{items.length}} items for search term {{lastSearch}}.
             </div>
-            <div class="product" v-for="(item, index) in items">
+            <div class="product" v-for="(item, index) in items" v-bind:key="item.id">
                 <div>
                     <div class="product-image">
                         <img v-bind:src="item.link" />
