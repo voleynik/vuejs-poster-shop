@@ -1,11 +1,14 @@
 var PRICE = 9.99; // vvo
-console.log('It works.');
+var SHOW_NUM = 5;
+
 console.log(Vue);
+console.log('It works.');
 
 new Vue({
     el: '#app',
     data: {
         total: 0,
+        totalFound: [],
         items: [],
         cart: [],
         results: [],
@@ -18,8 +21,6 @@ new Vue({
         removeDuplicates: function(arrPosters){
             var arrPostersNoDuplicates = [];
             var arrTitles = [];
-            //var onePoster = {};
-            //var posterTitle;
             for(var i = 0; i < arrPosters.length; i++){
                 var onePoster = arrPosters[i];
                 var posterTitle = onePoster["title"];
@@ -31,18 +32,15 @@ new Vue({
             return arrPostersNoDuplicates;
         },
         onSubmit: function(){
-            console.log('~newSearch: ' + this.newSearch);
-            //console.log(this.$http);
             this.items = [];
             this.loading = true;
-            console.log("~onSubmit");
             this.$http
                 .get('/search/'.concat(this.newSearch))
                 .then(function(res){
-                    console.log(res.data);
+                    this.totalFound = res.data;
                     this.lastSearch = this.newSearch;
                     var noDuplicates = this.removeDuplicates(res.data);
-                    this.items = noDuplicates.slice(0, 5);//id: "xx",link: "https://i.imgur.com/NJWf0d3.jpg", title: "xx"
+                    this.items = noDuplicates.slice(0, SHOW_NUM);//id: "xx",link: "https://i.imgur.com/NJWf0d3.jpg", title: "xx"
                     this.loading = false;
                 });
         },
@@ -80,6 +78,9 @@ new Vue({
                     price: PRICE
                 });
             }
+        },
+        appendItems: function(){
+            console.log('~appendItems()');
         }
     },
     filters: {
@@ -91,7 +92,15 @@ new Vue({
         console.log('~IN created');
     },
     mounted: function(){
-        console.log('~IN mounted');
         this.onSubmit();
+
+        var vueInstance = this;
+        var bottomElement = document.getElementById("product_list_bottom");
+        var bottomWatcher = scrollMonitor.create(bottomElement);
+        bottomWatcher.enterViewport(function(){
+            vueInstance.appendItems();
+        });
+
+        console.log('~IN mounted');
     }
 });
