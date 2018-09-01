@@ -1,4 +1,4 @@
-var ITEM_PRICE = 9.99; // vvo
+var ITEM_PRICE = 9.99; // vvo - test git after name changes
 console.log('It works.');
 console.log(Vue);
 
