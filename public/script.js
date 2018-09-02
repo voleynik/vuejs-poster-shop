@@ -2,6 +2,8 @@ var ITEM_PRICE = 9.99; // vvo - test git after name changes
 console.log('It works.');
 console.log(Vue);
 
+// id: "xx",link: "https://i.imgur.com/NJWf0d3.jpg", title: "xx"
+
 new Vue({
     el: '#app',
     data: {
@@ -24,9 +26,22 @@ new Vue({
                 .then(function(res){
                     console.log(res.data);
                     this.lastSearch = this.newSearch;
-                    this.itemsFound = res.data; // id: "xx",link: "https://i.imgur.com/NJWf0d3.jpg", title: "xx"
+                    this.itemsFound = this.removeDuplicates(res.data);
                     this.loading = false;
                 });
+        },
+        removeDuplicates: function(arrPosters){
+            var arrPostersNoDuplicates = [];
+            var arrTitles = [];
+            for(var i = 0; i < arrPosters.length; i++){
+                var onePoster = arrPosters[i];
+                var posterTitle = onePoster["title"];
+                if(arrTitles.indexOf(posterTitle) < 0){
+                    arrPostersNoDuplicates.push(onePoster);
+                    arrTitles.push(posterTitle);
+                }
+            }
+            return arrPostersNoDuplicates;
         },
         dec: function(item){
             item.qty--;

@@ -30,7 +30,7 @@
             <div class="search-results" v-else>
                 Found {{itemsFound.length}} items for search term {{lafstSearch}}.
             </div>
-            <div class="product" v-for="(item, index) in itemsFound">
+            <div class="product" v-for="(item, index) in itemsFound" v-bind:key="item.id">
                 <div>
                     <div class="product-image">
                         <img v-bind:src="item.link" />
@@ -46,7 +46,7 @@
         <div class="cart">
             <h2>Shopping cart</h2>
             <ul>
-                <li class="cart-item" v-for="item in cartItems">
+                <li class="cart-item" v-for="item in cartItems" v-bind:key="item.id">
                     <div class="item-title">{{item.title}}</div>
                     <span class="item-qty">{{ item.price | currencyFilter }} x {{ item.qty }}</span>
                     <button class="btn" v-on:click="inc(item)">+</button>
