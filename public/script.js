@@ -17,8 +17,6 @@ new Vue({
     },
     methods:{
         onSubmit: function(){
-            //console.log('~newSearch: ' + this.newSearch);
-            //console.log(this.$http);
             this.itemsFound = [];
             this.loading = true;
             this.$http
