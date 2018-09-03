@@ -28,20 +28,21 @@
                 Loading...
             </div>
             <div class="search-results" v-else>
-                Found {{itemsFound.length}} items for search term {{lafstSearch}}.
+                Found {{itemsFound.length}} items for search term {{lastSearch}}. (show {{itemsShown.length}})
             </div>
-            <div class="product" v-for="(item, index) in itemsFound" v-bind:key="item.id">
+            <div class="product" v-for="(item, index) in itemsShown" v-bind:key="item.id">
                 <div>
                     <div class="product-image">
                         <img v-bind:src="item.link" />
                     </div>
                 </div>
                 <div>
-                    <h4 class="product-title">{{item.title}}</h4>
+                    <h4 class="product-title">{{index + 1}}. {{item.title}}</h4>
                     <p>Price: <strong>{{ itemPrice | currencyFilter }} </strong></p>
                     <button v-on:click="addItem(index)" class="add-to-cart btn">Add to cart</button>
                 </div>
             </div>
+            <div id="product-list-bottom"></div>
         </div>
         <div class="cart">
             <h2>Shopping cart</h2>
@@ -67,6 +68,7 @@
 <script src="/reload/reload.js"></script>
 <script src="node_modules/vue/dist/vue.js"></script>
 <script src="node_modules/vue-resource/dist/vue-resource.js"></script>
+<script src="node_modules/scrollmonitor/scrollMonitor.js"></script>
 <script src="public/script.js"></script>
 
 </body>

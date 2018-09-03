@@ -1,4 +1,5 @@
 var ITEM_PRICE = 9.99; // vvo - replace OLD
+var APPEND_NUM = 5;
 console.log('It works.');
 console.log(Vue);
 
@@ -9,6 +10,7 @@ new Vue({
     data: {
         orderTotal: 0,
         itemsFound: [],
+        itemsShown: [],
         cartItems: [],
         newSearch: 'anime',
         lastSearch: '',
@@ -25,8 +27,16 @@ new Vue({
                     console.log(res.data);
                     this.lastSearch = this.newSearch;
                     this.itemsFound = this.removeDuplicates(res.data);
+                    this.itemsShown = this.itemsFound.slice(0, APPEND_NUM);
                     this.loading = false;
                 });
+        },
+        appendItems: function(){
+            if(this.itemsShown < this.itemsFound){
+                var itemsShownLength = this.itemsShown.length;
+                var itemsToAppend = this.itemsFound.slice(itemsShownLength, itemsShownLength + APPEND_NUM);
+                this.itemsShown = this.itemsShown.concat(itemsToAppend);;
+            }
         },
         removeDuplicates: function(arrPosters){
             var arrPostersNoDuplicates = [];
@@ -86,7 +96,14 @@ new Vue({
         console.log('~IN created');
     },
     mounted: function(){
-        console.log('~IN mounted');
         this.onSubmit();
+        var vueInstance = this;
+        var prodButtom = document.getElementById("product-list-bottom");
+        var watcher = scrollMonitor.create(prodButtom);
+        watcher.enterViewport(function(){
+            vueInstance.appendItems();
+        });
     }
 });
+
+
