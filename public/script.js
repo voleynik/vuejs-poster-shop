@@ -24,6 +24,9 @@ new Vue({
     },
     methods: {
         onSubmit: function(){
+            if(this.newSearch.length < 1){
+                return;
+            }
             this.itemsFound = [];
             this.loading = true;
             this.$http
@@ -50,6 +53,7 @@ new Vue({
             for(var i = 0; i < arrPosters.length; i++){
                 var onePoster = arrPosters[i];
                 var posterTitle = onePoster["title"];
+                posterTitle = posterTitle.replace("  ", " ");
                 if(arrTitles.indexOf(posterTitle) < 0){
                     arrPostersNoDuplicates.push(onePoster);
                     arrTitles.push(posterTitle);
