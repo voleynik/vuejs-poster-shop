@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div id="product-list-bottom">
-                <div v-if="itemsFound.length === itemsShown.length && ! loading">No more items</div>
+                <div v-if="noMoreItemsToAppend">No more items</div>
             </div>
         </div>
         <div class="cart">

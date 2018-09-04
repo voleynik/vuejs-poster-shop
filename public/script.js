@@ -17,13 +17,19 @@ new Vue({
         loading: false,
         itemPrice: ITEM_PRICE
     },
-    methods:{
+    computed: {
+        noMoreItemsToAppend: function() {
+            return this.itemsFound.length === this.itemsShown.length && !this.loading;
+        }
+    },
+    methods: {
         onSubmit: function(){
             this.itemsFound = [];
             this.loading = true;
             this.$http
                 .get('/search/'.concat(this.newSearch))
                 .then(function(res){
+                    console.log("~res: " + res);
                     console.log(res.data);
                     this.lastSearch = this.newSearch;
                     this.itemsFound = this.removeDuplicates(res.data);
